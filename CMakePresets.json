@@ -17,6 +17,41 @@
         "NOGRAPHICSAPI_BUILD_EXAMPLES": true,
         "NOGRAPHICSAPI_BUILD_TESTS": true
       }
+    },
+    {
+      "name": "linux-base",
+      "hidden": true,
+      "description": "Shared Linux Ninja configuration for the NoGraphicsAPI library, examples, and tests.",
+      "generator": "Ninja",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "cacheVariables": {
+        "NOGRAPHICSAPI_BUILD_EXAMPLES": true,
+        "NOGRAPHICSAPI_BUILD_TESTS": true,
+        "NOGRAPHICSAPI_SLANGC": "$env{SLANGC}",
+        "Vulkan_INCLUDE_DIR": "$env{VULKAN_SDK}/include"
+      }
+    },
+    {
+      "name": "linux-debug",
+      "displayName": "Linux RelWithDebInfo",
+      "inherits": "linux-base",
+      "binaryDir": "${sourceDir}/build-ninja/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "linux-release",
+      "displayName": "Linux MinSizeRel",
+      "inherits": "linux-base",
+      "binaryDir": "${sourceDir}/build-ninja/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "MinSizeRel"
+      }
     }
   ],
   "buildPresets": [
@@ -31,6 +66,16 @@
       "displayName": "MSVC Release",
       "configurePreset": "msvc",
       "configuration": "Release"
+    },
+    {
+      "name": "linux-debug",
+      "displayName": "Linux RelWithDebInfo",
+      "configurePreset": "linux-debug"
+    },
+    {
+      "name": "linux-release",
+      "displayName": "Linux MinSizeRel",
+      "configurePreset": "linux-release"
     }
   ],
   "testPresets": [
@@ -48,6 +93,22 @@
       "displayName": "MSVC Release tests",
       "configurePreset": "msvc",
       "configuration": "Release",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "linux-debug",
+      "displayName": "Linux RelWithDebInfo tests",
+      "configurePreset": "linux-debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "linux-release",
+      "displayName": "Linux MinSizeRel tests",
+      "configurePreset": "linux-release",
       "output": {
         "outputOnFailure": true
       }
